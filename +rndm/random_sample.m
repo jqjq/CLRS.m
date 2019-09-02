@@ -2,7 +2,7 @@ function s = random_sample(m, n)
     if m == 0
         s = [];
     else
-        s = random.random_sample(m-1, n-1);
+        s = rndm.random_sample(m-1, n-1);
         i = randi([1, n]);
         if ismember(i, s)
             s = [s n];

@@ -1,7 +1,7 @@
 function c = strassen_method(a, b)
     [n, ~] = size(a);
     if n == 1
-        c = a(1,1) * b(1,1);
+        c = a * b;
     else
         m = n;
         n = 2 ^ ceil(log2(m));

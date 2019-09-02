@@ -5,9 +5,9 @@ function [low, high, sum] = maximum_subarray_rec(a, low, high)
     else
         mid = fix((low + high)/2);
         [left_low, left_high, left_sum] = ...
-            search.maximum_subarray(a, low, mid);
+            srch.maximum_subarray(a, low, mid);
         [right_low, right_high, right_sum] = ...
-            search.maximum_subarray(a, mid + 1, high);
+            srch.maximum_subarray(a, mid + 1, high);
         [cross_low, cross_high, cross_sum] = ...
             max_crossing_subarray(a, low, mid, high);
         if left_sum >= right_sum && left_sum >= cross_sum

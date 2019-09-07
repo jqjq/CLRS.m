@@ -1,13 +1,11 @@
 classdef Chip < handle
     properties (Access = private)
-        good
+        good = true;
     end
 
     methods
         function obj = Chip(varargin)
-            if nargin == 0
-                obj.good = true;
-            elseif nargin == 1
+            if nargin == 1
                 obj.good = varargin{1};
             end
         end
@@ -23,9 +21,8 @@ classdef Chip < handle
 
     methods (Static)
         function chip = find_good(curr_chips)
+            next_chips(length(curr_chips)) = misc.Chip();
             while length(curr_chips) > 1
-                next_chips = misc.Chip.empty;
-                next_chips(length(curr_chips)) = misc.Chip();
                 next_len = 0;
                 for i = 1:2:length(curr_chips)-1
                     first = curr_chips(i);

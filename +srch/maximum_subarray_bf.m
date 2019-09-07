@@ -1,11 +1,12 @@
-function [low, high, maximum_sum] = maximum_subarray_bf(a)
-    maximum_sum = -Inf;    
-    for i = 1:length(a)
+function [low, high, max_so_far] = maximum_subarray_bf(a)
+    n = length(a);
+    max_so_far = -Inf;    
+    for l = 1:n
         sum = 0;
-        for j = i:length(a)
-            sum = sum + a(j);
-            if sum > maximum_sum
-                [low, high, maximum_sum] = deal(i, j, sum);
+        for h = l:n
+            sum = sum + a(h);
+            if sum > max_so_far
+                [low, high, max_so_far] = deal(l, h, sum);
             end
         end
     end

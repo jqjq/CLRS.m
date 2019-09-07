@@ -21,6 +21,7 @@ function c = strassen_method(a, b)
         b12 = b(1:mid, mid+1:n);
         b21 = b(mid+1:n, 1:mid);
         b22 = b(mid+1:n, mid+1:n);
+
         s1 = b12 - b22;
         s2 = a11 + a12;
         s3 = a21 + a22;
@@ -42,6 +43,7 @@ function c = strassen_method(a, b)
         c(1:mid, mid+1:n) = p1 + p2;
         c(mid+1:n, 1:mid) = p3 + p4;
         c(mid+1:n, mid+1:n) = p5 + p1 - p3 - p7;
+
         c = c(1:m,1:m);
     end
 end

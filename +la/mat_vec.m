@@ -1,4 +1,4 @@
-function c = square_matrix_multiply(a, b)
+function c = mat_vec(a, b)
     [n, ~] = size(a);
     c = zeros(n);
     for i = 1:n

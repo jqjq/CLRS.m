@@ -4,7 +4,7 @@ function result = monge_minimum(mat)
         result = find_min(mat, 1, n);
     else
         result = zeros(1, m);
-        even_mins = arthm.monge_minimum(mat(2:2:m,:));
+        even_mins = la.monge_minimum(mat(2:2:m,:));
         j = 1;
         stop = 1;
         for i = 1:2:m-1

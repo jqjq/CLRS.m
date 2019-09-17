@@ -1,20 +1,13 @@
-function bit = randbit()
+function x = randbit()
     while true
-        a = biased_randbit();
-        b = biased_randbit();
-        if a > b
-            bit = 0;
-            return
-        elseif a < b
-            bit = 1;
+        x = biased_randbit();
+        y = biased_randbit();
+        if x ~= y
             return
         end
     end
 end
 
 function bit = biased_randbit()
-    bit = randi([1, 3]);
-    if bit ~= 1
-        bit = 0;
-    end
+    bit = logical(randi([0, 2]));
 end

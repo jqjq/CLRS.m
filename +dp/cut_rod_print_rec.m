@@ -1,11 +1,11 @@
-function [r, s] = cut_rod_print_rec(p, n)
+function cut_rod_print_rec(p, n)
     r = -Inf(1, n);
     s = zeros(1, n);
-    [val, r, s] = cut_rod_aux(p, n, r, s);
-    fprintf("The optimal value is %d and the cuts are at ", val);
+    [val, ~, s] = cut_rod_aux(p, n, r, s);
+    fprintf('The optimal value is %d and the cuts are at ', val);
     j = n;
     while j > 0
-        fprintf("%d ", s(j));
+        fprintf('%d ', s(j));
         j = j - s(j);
     end
 end

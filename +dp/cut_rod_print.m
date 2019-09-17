@@ -1,7 +1,7 @@
-function [r, s] = cut_rod_print(p, n)
-    [r, s] = cut_rod(p, n);
+function cut_rod_print(p, n)
+    [~, s] = cut_rod(p, n);
     while n > 0
-        fprintf("%d ", s(n));
+        fprintf('%d ', s(n));
         n = n - s(n);
     end
 end

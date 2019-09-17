@@ -3,14 +3,12 @@ function new_graph = square(g)
         checked = false(g.vsize);
         new_adj = cell(1, g.vsize);
         for u = 1:g.vsize
-            for i = 1:length(g.adj{u})
-                v = g.adj{u}(i);
+            for v = g.adj{u}
                 if ~checked(u, v)
                     checked(u, v) = true;
                     new_adj{u} = [new_adj{u}, v];
                 end
-                for j = 1:length(g.adj{v})
-                    x = g.adj{v}(j);
+                for x = g.adj{v}
                     if ~checked(u, x)
                         checked(u, x) = true;
                         new_adj{u} = [new_adj{u}, x];

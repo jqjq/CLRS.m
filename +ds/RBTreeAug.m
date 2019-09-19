@@ -1,4 +1,4 @@
-classdef RBTree < handle
+classdef RBTreeAug < ds.RBTree
     properties
         nil
         root
@@ -10,6 +10,7 @@ classdef RBTree < handle
 
             obj.nil = Node();
             obj.nil.color = 1; % 1 = black, 0 = red
+            obj.nil.size = 0;
             obj.root = obj.nil;
         end
 
@@ -17,6 +18,7 @@ classdef RBTree < handle
             y = obj.nil;
             x = obj.root;
             while x ~= obj.nil
+                x.size = x.size + 1;
                 y = x;
                 if z.key < x.key
                     x = x.left;
@@ -35,6 +37,7 @@ classdef RBTree < handle
             z.left = obj.nil;
             z.right = obj.nil;
             z.color = 0;
+            z.size = 1;
             obj.insert_fix(z);
         end
 
@@ -62,6 +65,12 @@ classdef RBTree < handle
                 y.left = z.left;
                 y.left.parent = y;
                 y.color = z.color;
+                y.size = z.size;
+            end
+            p = x.parent;
+            while p ~= obj.nil
+                p.size = p.size - 1;
+                p = p.parent;
             end
             if y_original_color == 1
                 obj.delete_fixup(x);
@@ -74,6 +83,77 @@ classdef RBTree < handle
             end
         end
 
+        function x = select(obj, i)
+            x = obj.root;
+            while true
+                r = x.left.size + 1;
+                if i == r
+                    return
+                elseif i < r
+                    x = x.left;
+                else
+                    x = x.right;
+                    i = i - r;
+                end
+            end
+        end
+
+        function x = select_rec(obj, x, i)
+            r = x.left.size + 1;
+            if i == r
+                return
+            elseif i < r
+                x = obj.select_rec(x.left, i);
+            else
+                x = obj.select_rec(x.right, i - r);
+            end
+        end
+
+        function r = rank(obj, x)
+            r = x.left.size + 1;
+            y = x;
+            while y ~= obj.root
+                if y == y.parent.right
+                    r = r + y.parent.left.size + 1;
+                end
+                y = y.parent;
+            end
+        end
+
+        function r = key_rank(obj, x, key)
+            if x.key == key
+                r = x.left.size + 1;
+            elseif x.key > key
+                r = obj.key_rank(x.left, key);
+            else
+                r = obj.key_rank(x.right, key) + x.left.size + 1;
+            end
+        end
+
+        function x = successor(obj, x, i)
+            r = obj.rank(x);
+            s = r + i;
+            x = obj.select(s);
+        end
+
+        function print(obj, node)
+            if node == obj.nil
+                fprintf('* ');
+            else
+                fprintf('(');
+                obj.print(node.left);
+                if node.color == 1
+                    fprintf('[%d:%d]', node.key, node.size);
+                else
+                    fprintf('%d:%d ', node.key, node.size);
+                end
+                obj.print(node.right);
+                fprintf(') ');
+            end
+        end
+    end
+
+    methods (Access = private)
         function left_rotate(obj, x)
             y = x.right;
             x.right = y.left;
@@ -90,6 +170,8 @@ classdef RBTree < handle
             end
             y.left = x;
             x.parent = y;
+            y.size = x.size;
+            x.size = x.left.size + x.right.size + 1;
         end
 
         function right_rotate(obj, y)
@@ -108,6 +190,8 @@ classdef RBTree < handle
             end
             x.right = y;
             y.parent = x;
+            x.size = y.size;
+            y.size = y.left.size + y.right.size + 1;
         end
 
         function insert_fix(obj, z)
@@ -147,72 +231,6 @@ classdef RBTree < handle
                 end
             end
             obj.root.color = 1;
-        end
-
-        function transplant(obj, u, v)
-            if u.parent == obj.nil
-                obj.root = v;
-            elseif u == u.parent.left
-                u.parent.left = v;
-            else
-                u.parent.right = v;
-            end
-            v.parent = u.parent;
-        end
-
-        function delete_fixup(obj, x)
-            while x ~= obj.root && x.color == 1
-                if x == x.parent.left
-                    w = x.parent.right;
-                    if w.color == 0
-                        w.color = 1;
-                        x.parent.color = 0;
-                        obj.left_rotate(x.parent);
-                        w = x.parent.right;
-                    end
-                    if w.left.color == 1 && w.right.color == 1
-                        w.color = 0;
-                        x = x.parent;
-                    else
-                        if w.right.color == 1
-                            w.left.color = 1;
-                            w.color = 0;
-                            obj.right_rotate(w);
-                            w = x.parent.right;
-                        end
-                        w.color = x.parent.color;
-                        x.parent.color = 1;
-                        w.right.color = 1;
-                        obj.left_rotate(x.parent);
-                        return
-                    end
-                else
-                    w = x.parent.left;
-                    if w.color == 0
-                        w.color = 1;
-                        x.parent.color = 0;
-                        obj.right_rotate(x.parent);
-                        w = x.parent.left;
-                    end
-                    if w.left.color == 1 && w.right.color == 1
-                        w.color = 0;
-                        x = x.parent;
-                    else
-                        if w.left.color == 1
-                            w.right.color = 1;
-                            w.color = 0;
-                            obj.left_rotate(w);
-                            w = x.parent.left;
-                        end
-                        w.color = x.parent.color;
-                        x.parent.color = 1;
-                        w.left.color = 1;
-                        obj.right_rotate(x.parent);
-                        return
-                    end
-                end
-            end
-            x.color = 1;
         end
     end
 end

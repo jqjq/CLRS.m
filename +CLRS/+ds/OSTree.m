@@ -1,12 +1,7 @@
-classdef RBTreeAug < ds.RBTree
-    properties
-        nil
-        root
-    end
-
+classdef OSTree < CLRS.ds.RBTree
     methods
-        function obj = RBTree()
-            import ds.Node
+        function obj = OSTree()
+            import CLRS.ds.Node
 
             obj.nil = Node();
             obj.nil.color = 1; % 1 = black, 0 = red
@@ -151,9 +146,7 @@ classdef RBTreeAug < ds.RBTree
                 fprintf(') ');
             end
         end
-    end
 
-    methods (Access = private)
         function left_rotate(obj, x)
             y = x.right;
             x.right = y.left;

@@ -6,7 +6,7 @@ classdef RBTree < handle
 
     methods
         function obj = RBTree()
-            import ds.Node
+            import CLRS.ds.Node
 
             obj.nil = Node();
             obj.nil.color = 1; % 1 = black, 0 = red

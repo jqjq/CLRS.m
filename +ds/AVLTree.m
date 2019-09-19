@@ -8,7 +8,7 @@ classdef AVLTree < handle
         function obj = AVLTree()
             import ds.Node
 
-            obj.nil = ds.Node();
+            obj.nil = Node();
             obj.nil.height = -1;
             obj.root = obj.nil;
         end

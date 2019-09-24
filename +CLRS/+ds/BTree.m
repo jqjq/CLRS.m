@@ -97,6 +97,7 @@ classdef BTree < handle
 
         function k = delete_nonmin(obj, x, k)
             if x.color
+                % the key k is in node x and x is a leaf
                 if k == Inf
                     i = x.size;
                     k = x.key(i);

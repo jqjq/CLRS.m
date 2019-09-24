@@ -104,14 +104,9 @@ classdef BTree < handle
                     i = 1;
                     k = x.key(1);
                 else
-                    i = x.size;
-                    while k ~= x.key(i)
-                        i = i - 1;
-                    end
+                    i = find(x.key == k, 1, 'last');
                 end
-                for j = i:x.size-1
-                    x.key(j) = x.key(j+1);
-                end
+                x.key(i:x.size-1) = x.key(i+1:x.size);
                 x.size = x.size - 1;
             else
                 i = x.size;
@@ -160,19 +155,20 @@ classdef BTree < handle
         function split_child(obj, x, i)
             import CLRS.ds.Node
 
+            t = obj.degree;
             z = Node();
             y = x.child(i);
             z.color = y.color;
-            z.size = obj.degree - 1;
-            for j = 1:obj.degree-1
-                z.key(j) = y.key(j+obj.degree);
+            z.size = t - 1;
+            for j = 1:t-1
+                z.key(j) = y.key(j+t);
             end
             if ~y.color
-                for j = 1:obj.degree
-                    z.child(j) = y.child(j+obj.degree);
+                for j = 1:t
+                    z.child(j) = y.child(j+t);
                 end
             end
-            y.size = obj.degree - 1;
+            y.size = obj.t - 1;
             for j = x.size+1:-1:i+1
                 x.child(j+1) = x.child(j);
             end
@@ -180,29 +176,22 @@ classdef BTree < handle
             for j = x.size:-1:i
                 x.key(j+1) = x.key(j);
             end
-            x.key(i) = y.key(obj.degree);
+            x.key(i) = y.key(t);
             x.size = x.size + 1;
         end
 
         function merge_child(obj, x, i)
             y = x.child(i);
             z = x.child(i+1);
-            y.key(obj.degree) = x.key(i);
-            for j = 1:obj.degree-1
-                y.key(j+obj.degree) = z.key(j);
-            end
+            t = obj.degree;
+            y.key(t) = x.key(i);
+            y.key(1+t:2*t-1) = z.key(1:t-1);
             if ~y.color
-                for j = 1:obj.degree
-                    y.child(j+obj.degree) = z.child(j);
-                end
+                y.child(1+t:2*t) = z.child(1:t);
             end
-            y.size = 2*obj.degree - 1;
-            for j = i+1:x.size
-                x.child(j) = x.child(j+1);
-            end
-            for j = i:x.size-1
-                x.key(j) = x.key(j+1);
-            end
+            y.size = 2*t - 1;
+            x.child(i+1:x.size) = x.child(i+2:x.size+1);
+            x.key(i:x.size-1) = x.key(i+1:x.size);
             x.size = x.size - 1;
         end
 
@@ -210,38 +199,28 @@ classdef BTree < handle
             y = x.child(i);
             z = x.child(i+1);
             y.size = y.size + 1;
+            z.size = z.size - 1;
             y.key(y.size) = x.key(i);
+            x.key(i) = z.key(1);
+            z.key(1:z.size) = z.key(2:z.size+1);
             if ~y.color
                 y.child(y.size+1) = z.child(1);
+                z.child(1:z.size+1) = z.child(2:z.size+2);
             end
-            x.key(i) = z.key(1);
-            for j = 1:z.size-1
-                z.key(j) = z.key(j+1);
-            end
-            if ~z.color
-                for j = 1:z.size
-                    z.child(j) = z.child(j+1);
-                end
-            end
-            z.size = z.size - 1;
         end
 
         function right_rotate(~, x, i)
             y = x.child(i);
             z = x.child(i+1);
-            for j = z.size:-1:1
-                z.key(j+1) = z.key(j);
-            end
-            z.key(1) = x.key(i);
-            z.size = z.size + 1;
-            if ~z.color
-                for j = z.size:-1:1
-                    z.child(j+1) = z.child(j);
-                end
-                z.child(1) = y.child(z.size+1);
-            end
-            x.key(i) = y.key(y.size);
             y.size = y.size - 1;
+            z.size = z.size + 1;
+            z.key(2:z.size) = z.key(1:z.size-1);
+            z.key(1) = x.key(i);
+            x.key(i) = y.key(y.size+1);
+            if ~z.color
+                z.child(2:z.size+1) = z.child(1:z.size);
+                z.child(1) = y.child(y.size+1);
+            end
         end
     end
 end

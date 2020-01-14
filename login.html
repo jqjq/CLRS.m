@@ -34,8 +34,8 @@ jQuery(document).ready(function ($) {
       url: 'http://localhost:8080/random/',
       beforeSend: function (xhr) {
            xhr.setRequestHeader ("Authorization", "Basic " + btoa('susan' + ":" + "test123"));
-                   }
-    }));
+                   })
+    });
 	/*
 	.done(function(data, textStatus, jqXHR) {
       showMeYourJqXHR('When loginform is done', jqXHR);

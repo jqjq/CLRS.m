@@ -15,7 +15,7 @@
 	<!-- <label for="password">Password:</label><input id="password" name="password"><br/> --> 
 	<!-- <button type="submit">Login!</button> -->
 <!-- </form> -->
-
+<button id="bt">request</button>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
 jQuery(document).ready(function ($) {
@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
 
     //var cookie = JSON.parse($.cookie('helloween'));
     //var data = 'username=' + $('#username').val() + '&password=' + $('#password').val();
-    $.ajax({
+    $('#bt').click(function(){$.ajax({
       //data: data,
       //headers: {'X-CSRF-TOKEN': cookie.csrf},
       timeout: 1000,
@@ -35,7 +35,7 @@ jQuery(document).ready(function ($) {
       beforeSend: function (xhr) {
            xhr.setRequestHeader ("Authorization", "Basic " + btoa('susan' + ":" + "test123"));
                    }
-    })
+    }));
 	/*
 	.done(function(data, textStatus, jqXHR) {
       showMeYourJqXHR('When loginform is done', jqXHR);

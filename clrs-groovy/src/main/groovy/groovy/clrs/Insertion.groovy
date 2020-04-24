@@ -1,7 +1,11 @@
-package com.clrs
+package groovy.clrs
 
 class Insertion {
 
+    /**
+     * p.18
+     * @param a
+     */
     static void sort(a) {
         for (j in (1..<a.size)) {
             def key = a[j]

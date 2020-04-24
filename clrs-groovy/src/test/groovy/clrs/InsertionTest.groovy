@@ -14,6 +14,6 @@ class InsertionTest {
     void testSort() {
         def a = [31, 41, 59, 26, 41, 58]
         Insertion.sort(a)
-        println a
+        assert a == [26, 31, 41, 41, 58, 59]
     }
 }

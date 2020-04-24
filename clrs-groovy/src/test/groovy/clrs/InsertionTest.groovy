@@ -1,5 +1,6 @@
-package groovy.clrs
+package clrs
 
+import clrs.Insertion
 import org.junit.Test
 
 class InsertionTest {

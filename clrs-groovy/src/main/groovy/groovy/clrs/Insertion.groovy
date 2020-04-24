@@ -1,5 +1,9 @@
 package groovy.clrs
-
+/**
+ * p.16
+ * Chapter 2 Getting Started
+ * 2.1 Insertion sort
+ */
 class Insertion {
 
     /**

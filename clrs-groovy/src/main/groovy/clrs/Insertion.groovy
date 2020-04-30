@@ -20,4 +20,21 @@ class Insertion {
             a[i+1] = key
         }
     }
+
+    /**
+     * p.22
+     * 2.1-2
+     * Rewrite the InsertionSort procedure to sort into nonincreasing instead of nondecreasing order.
+     * @param a
+     * @param c
+     */
+    static void sort(a, Comparator c) {
+        for (j in (1..<a.size)) {
+            def key = a[j]
+            def i
+            for (i = j - 1; i >= 0 && c.compare(a[i], key) > 0; i--)
+                a[i+1] = a[i]
+            a[i+1] = key
+        }
+    }
 }

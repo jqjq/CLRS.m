@@ -12,7 +12,7 @@ package clrs
 class LinearSearch {
 
     static indexOf(a, v) {
-        for (i in 0..a.size)
+        for (i in 0..<a.size)
             if (a[i] == v)
                 return i
     }
